@@ -12,7 +12,7 @@ class EnvValidator {
             PORT: process.env.PORT || this.DEFAULT_POST
         });
         this.#validateEnv();
-        console.info('.env foi carregado com sucesso:  ', this.envVars);
+        console.info('O .env foi carregado com sucesso com os seguintes dados:  ', this.envVars);
     }
 
     #validateEnv() {
