@@ -7,11 +7,9 @@ async function initializeDatabase() {
     try {
         console.info('Iniciando conexão com banco de dados.');
         connection = await Connector.startConnection();
-        // TODO - separar cada try catch em um método diferente e chamar tudo em um principal
-        //  (quando der erro retornar falso e no método principal quando receber falso dos métodos secundários, parar a execução(return))
 
         console.info('Iniciando processo para excluir tabelas existentes.');
-        await connection.query(`DROP TABLE IF EXISTS post, comment;`);
+        await deleteExistingTables(connection);
 
         console.info('Criando tabela de Posts!');
         await createPostTable(connection);
@@ -33,6 +31,15 @@ initializeDatabase().catch(err => {
     process.exit(1);
 });
 
+async function deleteExistingTables(connection) {
+    try {
+        await connection.query(`DROP TABLE IF EXISTS post, comment;`);
+    }catch (error) {
+        console.error(`Erro ao apagar tabelas, erro: ${error}`);
+        throw error;
+    }
+}
+
 async function createPostTable (connection) {
     try {
         await connection.query(
@@ -46,6 +53,7 @@ async function createPostTable (connection) {
         );
     }catch (error) {
         console.error(`Erro ao criar tabela de posts, erro: ${error}`);
+        throw error;
     }
 }
 
@@ -61,5 +69,6 @@ async function createCommentTable (connection) {
         `);
     } catch (error) {
         console.error(`Erro ao criar tabela de comment, erro: ${error}`);
+        throw error;
     }
 }
