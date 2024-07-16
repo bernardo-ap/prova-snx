@@ -1,0 +1,20 @@
+{
+  "name": "prova-nx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql2": "^3.10.3"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "globals": "^15.8.0"
+  }
+}
