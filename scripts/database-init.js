@@ -1,19 +1,14 @@
 const mysql = require('mysql2/promise');
-require('dotenv').config()
+require('dotenv').config();
+const Connector = require('./connector');
 
 async function initializeDatabase() {
     let connection;
     try {
         console.info('Iniciando conexão com banco de dados.');
+        connection = await Connector.startConnection();
         // TODO - separar cada try catch em um método diferente e chamar tudo em um principal
         //  (quando der erro retornar falso e no método principal quando receber falso dos métodos secundários, parar a execução(return))
-        connection = await mysql.createConnection({
-            host: process.env.MYSQLDB_HOST,
-            user: process.env.MYSQLDB_USER,
-            password: process.env.MYSQLDB_ROOT_PASSWORD,
-            database: process.env.MYSQLDB_DATABASE,
-            port: process.env.MYSQLDB_LOCAL_PORT,
-        });
 
         console.info('Iniciando processo para excluir tabelas existentes.');
         await connection.query(`DROP TABLE IF EXISTS post, comment;`);

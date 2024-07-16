@@ -1,14 +1,26 @@
 require('dotenv').config();
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
+const envValidator = require('../entity/env-validator');
 
-// Cria a conexão com o banco de dados
-const connection = await mysql.createConnection({
-    host: process.env.MYSQLDB_HOST,
-    user: process.env.MYSQLDB_USER,
-    password: process.env.MYSQLDB_ROOT_PASSWORD,
-    database: process.env.MYSQLDB_DATABASE,
-    port: process.env.MYSQLDB_LOCAL_PORT,
-});
+class Connector {
+    constructor() {
+        this.host = envValidator.getVar('MYSQLDB_HOST');
+        this.user = envValidator.getVar('MYSQLDB_USER');
+        this.password = envValidator.getVar('MYSQLDB_ROOT_PASSWORD');
+        this.database = envValidator.getVar('MYSQLDB_DATABASE');
+        this.port = envValidator.getVar('MYSQLDB_PORT');
+    }
 
-// Exporta a conexão para ser usada em outros arquivos
-module.exports = connection;
+    async startConnection () {
+        const connection = await mysql.createConnection({
+            host: this.host,
+            user: this.user,
+            password: this.password,
+            database: this.database,
+            port: this.port,
+        });
+        return connection;
+    }
+}
+
+module.exports = new Connector();
