@@ -30,4 +30,11 @@ router.post('/', async (req,res) => {
     res.send(result.result);
 });
 
+router.delete('/:id', async (req,res) => {
+    const postComponent = new PostComponent(new PostQuery());
+    const result = await postComponent.deletePost(req?.params?.id);
+    res.status(result.status);
+    res.send(result.result);
+});
+
 module.exports = router;

@@ -25,3 +25,7 @@ Content-Type: application/json
   "description": null,
   "likes": 19091019
 }
+
+### DELETE requisição para rota para exlcuir posts
+DELETE http://localhost:8080/post/2
+Content-Type: application/json

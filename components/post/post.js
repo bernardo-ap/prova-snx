@@ -109,6 +109,24 @@ class Post {
 
     }
 
+    async deletePost(id) {
+        try {
+            console.info(`Iniciando processo para excluir post com id: ${id}`);
+            const result = await this.postQuery.deletePostById(id);
+            return {
+                status: statusCode.ACCEPTED,
+                result,
+            };
+
+        } catch (error) {
+            console.error(`Houve um erro ao exlcuir um post com o seguinte id: ${id} Erro: ${error}`);
+            return {
+                status: statusCode.INTERNAL_SERVER_ERROR,
+                result: 'Falha crítica ao tentar exlcuir um post!'
+            };
+        }
+    }
+
     #verifyPostParams(data) {
         try {
             let hasError = false;

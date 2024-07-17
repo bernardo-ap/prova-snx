@@ -15,7 +15,12 @@ class PostQuery {
     async findPostById(id) {
         const connection = await connector.startConnection();
 
-        const [rows, fields] = await connection.query(`SELECT id, title, description, likes, created_at  FROM post WHERE id = ? AND deleted_at is null`, [id]);
+        const [rows, fields] = await connection.query(`
+            SELECT id, title, description, likes, created_at  
+            FROM post 
+            WHERE id = ? 
+            AND deleted_at is null
+        `, [id]);
 
         await connection.end();
         return rows?.[0];
@@ -28,7 +33,7 @@ class PostQuery {
             UPDATE post
             SET title = ?, description = ?, likes = ? 
             WHERE id = ?
-            `, [data?.title, data?.description, data?.likes, id]);
+        `, [data?.title, data?.description, data?.likes || 0, id]);
 
         await connection.end();
         return { id };
@@ -46,6 +51,19 @@ class PostQuery {
         const [rows] = await connection.query(newIdQuery);
         await connection.end();
         return rows?.[0];
+    }
+
+    async deletePostById (id) {
+        const connection = await connector.startConnection();
+
+        const [rows, fields] = await connection.query(`
+            UPDATE post
+            SET deleted_at = now() 
+            WHERE id = ?
+        `, [id]);
+
+        await connection.end();
+        return {id};
     }
 
 }
