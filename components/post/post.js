@@ -57,6 +57,32 @@ class Post {
         }
     }
 
+    async updatePost(id, data) {
+        try {
+            const hasParameterError = this.#verifyPostParams(data);
+            if (hasParameterError) {
+                return {
+                    status: statusCode.BAD_REQUEST,
+                    result: 'Houve um erro ao atualizar um post!'
+                };
+            }
+            console.info(`Iniciando atualização de post com id ${id}!`);
+            const result = await this.postQuery.updatePostById(id, data);
+
+            return {
+                status: statusCode.OK,
+                result,
+            };
+
+        } catch (error) {
+            console.error(`Houve um erro ao atualizar post com id: ${id} Erro: ${error}`);
+            return {
+                status: statusCode.INTERNAL_SERVER_ERROR,
+                result: 'Falha crítica ao atualizar post pelo id informado!'
+            };
+        }
+    }
+
     async createPost(data) {
         try {
             const hasParameterError = this.#verifyPostParams(data);

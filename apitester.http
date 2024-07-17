@@ -6,6 +6,15 @@ Accept: application/json
 GET http://localhost:8080/post/10
 Accept: application/json
 
+### PUT requisição para atualizar post pelo id
+PUT http://localhost:8080/post/2
+Content-Type: application/json
+
+{
+  "title": "OOOPPPAAAAA",
+  "description": "é isto?",
+  "likes": 1
+}
 
 ### POST requisição para rota de criação de posts
 POST http://localhost:8080/post

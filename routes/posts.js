@@ -16,6 +16,13 @@ router.get('/:id', async(req,res) => {
     res.send(result.result);
 });
 
+router.put('/:id', async(req,res) => {
+    const postComponent = new PostComponent(new PostQuery());
+    const result = await postComponent.updatePost(req?.params?.id, req?.body);
+    res.status(result.status);
+    res.send(result.result);
+});
+
 router.post('/', async (req,res) => {
     const postComponent = new PostComponent(new PostQuery());
     const result = await postComponent.createPost(req?.body);

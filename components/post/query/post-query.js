@@ -20,6 +20,20 @@ class PostQuery {
         await connection.end();
         return rows?.[0];
     }
+
+    async updatePostById(id, data) {
+        const connection = await connector.startConnection();
+
+        const [rows, fields] = await connection.query(`
+            UPDATE post
+            SET title = ?, description = ?, likes = ? 
+            WHERE id = ?
+            `, [data?.title, data?.description, data?.likes, id]);
+
+        await connection.end();
+        return { id };
+    }
+
     async createPost (postData) {
         const connection = await connector.startConnection();
         const values = [postData?.title, postData?.description, postData?.likes || 0];
