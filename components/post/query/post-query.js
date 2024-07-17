@@ -6,7 +6,26 @@ class PostQuery {
 
     async findPosts() {
         const connection = await connector.startConnection();
-        const [rows, fields] = await connection.query(`SELECT id, title, description, likes, created_at  FROM post WHERE deleted_at is null`);
+        const [rows, fields] = await connection.query(`
+            SELECT
+                p.id,
+                p.title,
+                p.description,
+                p.likes,
+                p.created_at,
+                IF(COUNT(c.id) = 0, NULL, JSON_ARRAYAGG(JSON_OBJECT('id', c.id, 'message', c.message, 'created_at', c.created_at))) AS comments
+            FROM post p
+            LEFT JOIN comment c 
+            ON c.post_id = p.id 
+            AND c.deleted_at IS NULL
+            WHERE p.deleted_at IS NULL
+            GROUP BY
+                p.id,
+                p.title,
+                p.description,
+                p.likes,
+                p.created_at;
+        `);
 
         await connection.end();
         return rows;
@@ -16,10 +35,25 @@ class PostQuery {
         const connection = await connector.startConnection();
 
         const [rows, fields] = await connection.query(`
-            SELECT id, title, description, likes, created_at  
-            FROM post 
-            WHERE id = ? 
-            AND deleted_at is null
+            SELECT
+                p.id,
+                p.title,
+                p.description,
+                p.likes,
+                p.created_at,
+                IF(COUNT(c.id) = 0, NULL, JSON_ARRAYAGG(JSON_OBJECT('id', c.id, 'message', c.message, 'created_at', c.created_at))) AS comments
+            FROM post p
+            LEFT JOIN comment c 
+            ON c.post_id = p.id 
+            AND c.deleted_at IS NULL
+            WHERE p.deleted_at IS NULL
+            AND p.id = ?
+            GROUP BY
+                p.id,
+                p.title,
+                p.description,
+                p.likes,
+                p.created_at;
         `, [id]);
 
         await connection.end();
@@ -66,6 +100,18 @@ class PostQuery {
         return {id};
     }
 
+    async deleteAllCommentsByPostId (id) {
+        const connection = await connector.startConnection();
+
+        const [rows, fields] = await connection.query(`
+            UPDATE comment
+            SET deleted_at = now() 
+            WHERE post_id = ?
+        `, [id]);
+
+        await connection.end();
+        return {id};
+    }
 }
 
 module.exports = PostQuery;

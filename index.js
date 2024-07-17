@@ -2,12 +2,12 @@ require('dotenv').config();
 require('./entity/env-validator');
 const express = require('express');
 const app = express();
-const routeUser = require('./routes/user');
+const routeComment = require('./routes/comment');
 const routePosts = require('./routes/posts');
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use('/users', routeUser);
+app.use('/comment', routeComment);
 app.use('/post', routePosts);
 
 const PORT = process.env.PORT || 8080;

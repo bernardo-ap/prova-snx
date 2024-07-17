@@ -113,6 +113,8 @@ class Post {
         try {
             console.info(`Iniciando processo para excluir post com id: ${id}`);
             const result = await this.postQuery.deletePostById(id);
+            console.info(`Iniciando processo para exlcuir comentários do post com id: ${id}`);
+            await this.postQuery.deleteAllCommentsByPostId(id);
             return {
                 status: statusCode.ACCEPTED,
                 result,
