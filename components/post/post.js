@@ -1,3 +1,5 @@
+const statusCode = require('../../entity/status-codes');
+
 class Post {
     constructor(postQuery) {
         this.postQuery = postQuery;
@@ -10,20 +12,20 @@ class Post {
 
             if (result.length) {
                 return {
-                    status: 200,
+                    status: statusCode.OK,
                     result,
                 };
             }
 
             return {
-                status: 204,
+                status: statusCode.NO_CONTENT,
                 result,
             };
 
         } catch (error) {
             console.error(`Houve um erro ao buscar todos os posts, erro: ${error}`);
             return {
-                status: 500,
+                status: statusCode.INTERNAL_SERVER_ERROR,
                 result: 'Falha crítica ao tentar buscar os posts!'
             };
         }
@@ -34,21 +36,21 @@ class Post {
             const hasParameterError = this.#verifyPostParams(data);
             if (hasParameterError) {
                 return {
-                    status: 400,
+                    status: statusCode.BAD_REQUEST,
                     result: 'Houve um erro ao criar um post!'
                 };
             }
             console.info(`Iniciando criação de um post com os seguintes dados: ${JSON.stringify(data)}`);
             const result = await this.postQuery.createPost(data);
             return {
-                status: 201,
+                status: statusCode.CREATED,
                 result,
             };
 
         } catch (error) {
             console.error(`Houve um erro ao criar um post com os seguintes dados: ${JSON.stringify(data)} Erro: ${error}`);
             return {
-                status: 500,
+                status: statusCode.INTERNAL_SERVER_ERROR,
                 result: 'Falha crítica ao tentar criar um post!'
             };
         }
