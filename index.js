@@ -1,14 +1,15 @@
+require('dotenv').config();
+require('./entity/env-validator');
 const express = require('express');
 const app = express();
 const routeUser = require('./routes/user');
-const routePosts = require('./routes/posts')
-require('dotenv').config();
+const routePosts = require('./routes/posts');
 
 
 app.use('/users', routeUser);
-app.use('/posts', routePosts);
+app.use('/post', routePosts);
 
-const PORT = process.env.NODE_DOCKER_PORT || 8080;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, (error) => {
     if (error) {
