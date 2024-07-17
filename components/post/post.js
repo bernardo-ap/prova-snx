@@ -49,10 +49,10 @@ class Post {
                 result: 'Não foi possível encontrar o post com o id informado!'
             };
         } catch (error) {
-            console.error(`Houve um erro ao buscar todos os posts, erro: ${error}`);
+            console.error(`Houve um erro ao buscar post com id: ${id} Erro: ${error}`);
             return {
                 status: statusCode.INTERNAL_SERVER_ERROR,
-                result: 'Falha crítica ao tentar buscar os posts!'
+                result: 'Falha crítica ao buscar post pelo id informado!'
             };
         }
     }
