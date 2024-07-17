@@ -7,8 +7,6 @@ class EnvValidator {
             MYSQLDB_DATABASE: process.env.MYSQLDB_DATABASE,
             MYSQLDB_PORT: process.env.MYSQLDB_PORT,
             MYSQLDB_HOST: process.env.MYSQLDB_HOST,
-            NODE_LOCAL_PORT: process.env.NODE_LOCAL_PORT,
-            NODE_DOCKER_PORT: process.env.NODE_DOCKER_PORT,
             PORT: process.env.PORT || this.DEFAULT_POST
         });
         this.#validateEnv();
