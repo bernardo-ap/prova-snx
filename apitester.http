@@ -2,6 +2,11 @@
 GET http://localhost:8080/post
 Accept: application/json
 
+### GET requisição para rota de posts para listar todas as postagens
+GET http://localhost:8080/post/10
+Accept: application/json
+
+
 ### POST requisição para rota de criação de posts
 POST http://localhost:8080/post
 Content-Type: application/json

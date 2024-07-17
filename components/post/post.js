@@ -31,6 +31,32 @@ class Post {
         }
     }
 
+    async findPost(id) {
+        try {
+            console.info(`Iniciando busca de post com id ${id}!`);
+            const result = await this.postQuery.findPostById(id);
+
+            if (result) {
+                return {
+                    status: statusCode.OK,
+                    result,
+                };
+            }
+
+            console.warn(`Não foi possível encontrar o post com o id ${id}!`);
+            return {
+                status: statusCode.BAD_REQUEST,
+                result: 'Não foi possível encontrar o post com o id informado!'
+            };
+        } catch (error) {
+            console.error(`Houve um erro ao buscar todos os posts, erro: ${error}`);
+            return {
+                status: statusCode.INTERNAL_SERVER_ERROR,
+                result: 'Falha crítica ao tentar buscar os posts!'
+            };
+        }
+    }
+
     async createPost(data) {
         try {
             const hasParameterError = this.#verifyPostParams(data);
