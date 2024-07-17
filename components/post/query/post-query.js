@@ -4,6 +4,14 @@ class PostQuery {
     constructor() {
     }
 
+    async findPosts() {
+        const connection = await connector.startConnection();
+        const [rows, fields] = await connection.query(`SELECT id, title, description, likes, created_at  FROM post WHERE deleted_at is null`);
+
+        await connection.end();
+        return rows;
+    }
+
     async createPost (postData) {
         const connection = await connector.startConnection();
         const values = [postData?.title, postData?.description, postData?.likes || 0];

@@ -3,6 +3,32 @@ class Post {
         this.postQuery = postQuery;
     }
 
+    async findAllPosts() {
+        try {
+            console.info('Iniciando busca de todos os posts!');
+            const result = await this.postQuery.findPosts();
+
+            if (result.length) {
+                return {
+                    status: 200,
+                    result,
+                };
+            }
+
+            return {
+                status: 204,
+                result,
+            };
+
+        } catch (error) {
+            console.error(`Houve um erro ao buscar todos os posts, erro: ${error}`);
+            return {
+                status: 500,
+                result: 'Falha crítica ao tentar buscar os posts!'
+            };
+        }
+    }
+
     async createPost(data) {
         try {
             const hasParameterError = this.#verifyPostParams(data);
