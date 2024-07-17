@@ -1,7 +1,13 @@
-### GET requisição para a rota de users para listar todos os usuários
-GET http://localhost:8080/users
-Accept: application/json
-
 ### GET requisição para rota de posts para listar todas as postagens
 GET http://localhost:8080/post
 Accept: application/json
+
+### POST requisição para rota de criação de posts
+POST http://localhost:8080/post
+Content-Type: application/json
+
+{
+  "title": "TítuloPrimeiro TítuloPrimeiro TítuloPrimeiro TítuloPrimeiro TítuloPrimeiro",
+  "description": null,
+  "likes": 19091019
+}

@@ -5,7 +5,8 @@ const app = express();
 const routeUser = require('./routes/user');
 const routePosts = require('./routes/posts');
 
-
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 app.use('/users', routeUser);
 app.use('/post', routePosts);
 
