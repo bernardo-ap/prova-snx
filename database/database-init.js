@@ -1,12 +1,12 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
-const Connector = require('./connector');
+const connector = require('./connector');
 
 async function initializeDatabase() {
     let connection;
     try {
         console.info('Iniciando conexão com banco de dados.');
-        connection = await Connector.startConnection();
+        connection = await connector.startConnection();
 
         console.info('Iniciando processo para excluir tabelas existentes.');
         await deleteExistingTables(connection);
@@ -42,15 +42,16 @@ async function deleteExistingTables(connection) {
 
 async function createPostTable (connection) {
     try {
-        await connection.query(
-            `CREATE TABLE IF NOT EXISTS post (
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS post (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 title VARCHAR(255) NOT NULL,
                 description VARCHAR(255) NOT NULL,
                 likes INT,
                 created_at TIMESTAMP DEFAULT NOW(),
-                deleted_at TIMESTAMP null);`
-        );
+                deleted_at TIMESTAMP null
+            );
+        `);
     }catch (error) {
         console.error(`Erro ao criar tabela de posts, erro: ${error}`);
         throw error;
@@ -65,7 +66,8 @@ async function createCommentTable (connection) {
                 message VARCHAR(255) NOT NULL,
                 post_id INT NOT NULL REFERENCES post(id),
                 created_at TIMESTAMP DEFAULT NOW(),
-                deleted_at TIMESTAMP null);
+                deleted_at TIMESTAMP null
+            );
         `);
     } catch (error) {
         console.error(`Erro ao criar tabela de comment, erro: ${error}`);
