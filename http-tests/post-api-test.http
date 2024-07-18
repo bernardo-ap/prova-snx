@@ -1,0 +1,31 @@
+### GET requisição para rota de posts para listar todas as postagens
+GET http://localhost:8080/post
+Accept: application/json
+
+### GET requisição para rota de listar post pelo id
+GET http://localhost:8080/post/5
+Accept: application/json
+
+### PUT requisição para atualizar post pelo id
+PUT http://localhost:8080/post/2
+Content-Type: application/json
+
+{
+  "title": "teste",
+  "description": "teste",
+  "likes": 0
+}
+
+### POST requisição para rota de criação de posts
+POST http://localhost:8080/post
+Content-Type: application/json
+
+{
+  "title": "teste",
+  "description": "teste",
+  "likes": 0
+}
+
+### DELETE requisição para rota para exlcuir posts
+DELETE http://localhost:8080/post/5
+Content-Type: application/json

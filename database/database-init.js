@@ -1,5 +1,3 @@
-const mysql = require('mysql2/promise');
-require('dotenv').config();
 const connector = require('./connector');
 
 async function initializeDatabase() {
@@ -8,8 +6,8 @@ async function initializeDatabase() {
         console.info('Iniciando conexão com banco de dados.');
         connection = await connector.startConnection();
 
-        console.info('Iniciando processo para excluir tabelas existentes.');
-        await deleteExistingTables(connection);
+        // console.info('Iniciando processo para excluir tabelas existentes.');
+        // await deleteExistingTables(connection);
 
         console.info('Criando tabela de Posts!');
         await createPostTable(connection);
@@ -31,14 +29,14 @@ initializeDatabase().catch(err => {
     process.exit(1);
 });
 
-async function deleteExistingTables(connection) {
-    try {
-        await connection.query(`DROP TABLE IF EXISTS post, comment;`);
-    }catch (error) {
-        console.error(`Erro ao apagar tabelas, erro: ${error}`);
-        throw error;
-    }
-}
+// async function deleteExistingTables(connection) {
+//     try {
+//         await connection.query(`DROP TABLE IF EXISTS post, comment;`);
+//     }catch (error) {
+//         console.error(`Erro ao apagar tabelas, erro: ${error}`);
+//         throw error;
+//     }
+// }
 
 async function createPostTable (connection) {
     try {
