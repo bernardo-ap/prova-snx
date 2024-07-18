@@ -6,7 +6,7 @@ Accept: application/json
 GET http://localhost:8080/post/5
 Accept: application/json
 
-### PUT requisição para atualizar post pelo id
+### PUT requisição para rota atualizar post pelo id
 PUT http://localhost:8080/post/2
 Content-Type: application/json
 

@@ -4,10 +4,10 @@ Content-Type: application/json
 
 {
   "message": "teste",
-  "post_id": 0
+  "post_id": 1
 }
 
-### PUT requisição para atualizar comentário pelo id
+### PUT requisição para rota de atualização comentário pelo id
 PUT http://localhost:8080/comment/3
 Content-Type: application/json
 
