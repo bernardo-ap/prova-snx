@@ -112,6 +112,20 @@ class PostQuery {
         await connection.end();
         return {id};
     }
+
+    async verifyIfPostExist (postId) {
+        const connection = await connector.startConnection();
+
+        const [rows, fields] = await connection.query(`
+            SELECT id 
+            FROM post
+            WHERE id = ?
+            AND deleted_at is null
+        `, [postId]);
+
+        await connection.end();
+        return rows?.[0]?.id;
+    }
 }
 
 module.exports = PostQuery;

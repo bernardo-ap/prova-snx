@@ -83,6 +83,20 @@ class CommentQuery {
         await connection.end();
         return rows?.[0]?.id;
     }
+
+    async verifyIfCommentExist (commentId) {
+        const connection = await connector.startConnection();
+
+        const [rows, fields] = await connection.query(`
+            SELECT id 
+            FROM comment
+            WHERE id = ?
+            AND deleted_at is null
+        `, [commentId]);
+
+        await connection.end();
+        return rows?.[0]?.id;
+    }
 }
 
 module.exports = CommentQuery;

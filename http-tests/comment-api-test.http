@@ -23,6 +23,6 @@ Accept: application/json
 GET http://localhost:8080/comment/1
 Accept: application/json
 
-### DELETE requisição para rota para exlcuir comentários
-DELETE http://localhost:8080/comment/
+### DELETE requisição para rota para excluir comentários
+DELETE http://localhost:8080/comment/1
 Content-Type: application/json

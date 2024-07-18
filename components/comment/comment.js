@@ -18,6 +18,7 @@ class Comment {
 
             const postExists = await this.commentQuery.verifyIfPostExist(data?.post_id);
             if (!postExists) {
+                console.warn(`Post com id ${data?.post_id} não foi encontrado para criar comentário!`);
                 return {
                     status: statusCode.NOT_FOUND,
                     result: 'Post não encontrado para criar comentário!'
@@ -50,6 +51,15 @@ class Comment {
                 };
             }
 
+            const commentExists = await this.commentQuery.verifyIfCommentExist(id);
+            if (!commentExists) {
+                console.warn(`Comentário com id ${id} não foi encontrado!`);
+                return {
+                    status: statusCode.NOT_FOUND,
+                    result: 'Comentário não encontrado!'
+                };
+            }
+
             console.info(`Iniciando atualização de comentário com id ${id}!`);
             const result = await this.commentQuery.updateCommentById(id, data);
 
@@ -73,6 +83,7 @@ class Comment {
             const result = await this.commentQuery.findCommentById(id);
 
             if (result) {
+                console.info(`Comentário com id ${id} encontrado com sucesso!`);
                 return {
                     status: statusCode.OK,
                     result,
@@ -121,6 +132,15 @@ class Comment {
 
     async deleteComment (id) {
         try {
+            const commentExists = await this.commentQuery.verifyIfCommentExist(id);
+            if (!commentExists) {
+                console.warn(`Comentário com id ${id} não foi encontrado!`);
+                return {
+                    status: statusCode.NOT_FOUND,
+                    result: 'Comentário não encontrado!'
+                };
+            }
+
             console.info(`Iniciando processo para excluir comentário com id: ${id}`);
             const result = await this.commentQuery.deleteCommentById(id);
             return {
@@ -129,10 +149,10 @@ class Comment {
             };
 
         } catch (error) {
-            console.error(`Houve um erro ao exlcuir um comentário com o seguinte id: ${id} Erro: ${error}`);
+            console.error(`Houve um erro ao excluir um comentário com o seguinte id: ${id} Erro: ${error}`);
             return {
                 status: statusCode.INTERNAL_SERVER_ERROR,
-                result: 'Falha crítica ao tentar exlcuir um comentário!'
+                result: 'Falha crítica ao tentar excluir um comentário!'
             };
         }
     }

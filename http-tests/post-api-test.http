@@ -26,6 +26,6 @@ Content-Type: application/json
   "likes": 0
 }
 
-### DELETE requisição para rota para exlcuir posts
+### DELETE requisição para rota para excluir posts
 DELETE http://localhost:8080/post/5
 Content-Type: application/json

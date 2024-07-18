@@ -37,6 +37,7 @@ class Post {
             const result = await this.postQuery.findPostById(id);
 
             if (result) {
+                console.info(`Post com id ${id} encontrado com sucesso!`);
                 return {
                     status: statusCode.OK,
                     result,
@@ -66,9 +67,19 @@ class Post {
                     result: 'Houve um erro ao atualizar um post!'
                 };
             }
+
+            console.info(`Verificando se post com id ${id} existe para poder atualizá-lo`);
+            const postExists = await this.postQuery.verifyIfPostExist(id);
+            if (!postExists) {
+                console.warn(`Post com id ${id} não foi encontrado!`);
+                return {
+                    status: statusCode.NOT_FOUND,
+                    result: 'Post não encontrado!'
+                };
+            }
             console.info(`Iniciando atualização de post com id ${id}!`);
             const result = await this.postQuery.updatePostById(id, data);
-
+            console.info(`Post com id ${id} atualizado com sucesso!`);
             return {
                 status: statusCode.OK,
                 result,
@@ -94,6 +105,7 @@ class Post {
             }
             console.info(`Iniciando criação de um post com os seguintes dados: ${JSON.stringify(data)}`);
             const result = await this.postQuery.createPost(data);
+            console.info(`Post criado com sucesso!`);
             return {
                 status: statusCode.CREATED,
                 result,
@@ -111,20 +123,31 @@ class Post {
 
     async deletePost(id) {
         try {
+            console.info(`Verificando se post com id ${id} existe para poder excluí-lo`);
+            const postExists = await this.postQuery.verifyIfPostExist(id);
+            if (!postExists) {
+                console.warn(`Post com id ${id} não foi encontrado!`);
+                return {
+                    status: statusCode.NOT_FOUND,
+                    result: 'Post não encontrado!'
+                };
+            }
+
             console.info(`Iniciando processo para excluir post com id: ${id}`);
             const result = await this.postQuery.deletePostById(id);
-            console.info(`Iniciando processo para exlcuir comentários do post com id: ${id}`);
+            console.info(`Iniciando processo para excluir comentários do post com id: ${id}`);
             await this.postQuery.deleteAllCommentsByPostId(id);
+            console.info('Post excluído com sucesso!');
             return {
                 status: statusCode.ACCEPTED,
                 result,
             };
 
         } catch (error) {
-            console.error(`Houve um erro ao exlcuir um post com o seguinte id: ${id} Erro: ${error}`);
+            console.error(`Houve um erro ao excluir um post com o seguinte id: ${id} Erro: ${error}`);
             return {
                 status: statusCode.INTERNAL_SERVER_ERROR,
-                result: 'Falha crítica ao tentar exlcuir um post!'
+                result: 'Falha crítica ao tentar excluir um post!'
             };
         }
     }
