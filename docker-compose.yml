@@ -14,9 +14,9 @@ services:
       - db:/var/lib/mysql
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD}"]
-      interval: 1s
-      timeout: 1s
-      retries: 10
+      interval: 5s
+      timeout: 5s
+      retries: 50
 
   app:
     depends_on:
