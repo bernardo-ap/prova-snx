@@ -4,6 +4,12 @@
 #### Email: bernardo66026@gmail.com
 #### Telefone: (24) 99272-5174
 
+## Recursos Necessários
+
+1. Docker
+2. Docker Compose
+3. GIT
+
 
 ## Passos Iniciais
 
