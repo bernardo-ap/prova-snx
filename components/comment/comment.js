@@ -20,7 +20,7 @@ class Comment {
             if (!postExists) {
                 console.warn(`Post com id ${data?.post_id} não foi encontrado para criar comentário!`);
                 return {
-                    status: statusCode.NOT_FOUND,
+                    status: statusCode.BAD_REQUEST,
                     result: 'Post não encontrado para criar comentário!'
                 };
             }
@@ -55,7 +55,7 @@ class Comment {
             if (!commentExists) {
                 console.warn(`Comentário com id ${id} não foi encontrado!`);
                 return {
-                    status: statusCode.NOT_FOUND,
+                    status: statusCode.BAD_REQUEST,
                     result: 'Comentário não encontrado!'
                 };
             }
@@ -136,7 +136,7 @@ class Comment {
             if (!commentExists) {
                 console.warn(`Comentário com id ${id} não foi encontrado!`);
                 return {
-                    status: statusCode.NOT_FOUND,
+                    status: statusCode.BAD_REQUEST,
                     result: 'Comentário não encontrado!'
                 };
             }

@@ -73,7 +73,7 @@ class Post {
             if (!postExists) {
                 console.warn(`Post com id ${id} não foi encontrado!`);
                 return {
-                    status: statusCode.NOT_FOUND,
+                    status: statusCode.BAD_REQUEST,
                     result: 'Post não encontrado!'
                 };
             }
@@ -128,7 +128,7 @@ class Post {
             if (!postExists) {
                 console.warn(`Post com id ${id} não foi encontrado!`);
                 return {
-                    status: statusCode.NOT_FOUND,
+                    status: statusCode.BAD_REQUEST,
                     result: 'Post não encontrado!'
                 };
             }
