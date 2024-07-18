@@ -45,7 +45,10 @@ No diretório raiz do projeto, execute o comando:
 ```bash
 docker-compose up --build
 ```
-#### Este comando fará o seguinte:
+
+Aguarde até que apareça a mensagem informando que a aplicação está rodando na porta 8080.
+
+### Este comando fará o seguinte:
 
 Baixará e construirá as imagens Docker necessárias.
 Inicializará os containers definidos no docker-compose.yml.
