@@ -6,28 +6,33 @@ services:
     restart: unless-stopped
     env_file: ./.env
     environment:
-      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+      - MYSQL_ROOT_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQLDB_DATABASE}
     ports:
-      - $MYSQLDB_PORT:$MYSQLDB_PORT
+      - ${MYSQLDB_PORT}:${MYSQLDB_PORT}
     volumes:
       - db:/var/lib/mysql
+    healthcheck:
+      test: "exit 0"
+
   app:
     depends_on:
-      - mysqldb
-    build: ./
+      mysqldb:
+        condition: service_healthy
+    build: .
     restart: unless-stopped
     env_file: ./.env
     ports:
-      - $PORT:$PORT
+      - ${PORT}:${PORT}
     environment:
       - DB_HOST=mysqldb
-      - DB_USER=$MYSQLDB_USER
-      - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-      - DB_NAME=$MYSQLDB_DATABASE
-      - DB_PORT=$MYSQLDB_DOCKER_PORT
+      - DB_USER=${MYSQLDB_USER}
+      - DB_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
+      - DB_NAME=${MYSQLDB_DATABASE}
+      - DB_PORT=${MYSQLDB_PORT}
     stdin_open: true
     tty: true
+    command: /bin/sh -c "node ./database/database-init.js && npm start"
 
 volumes:
   db:
